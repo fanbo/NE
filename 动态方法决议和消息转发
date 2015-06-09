@@ -1,0 +1,21 @@
+# 动态方法决议
+如何动态提供一个方法的实现
+
+* 对于实例方法，实现resolveInstanceMethod:
+* 对于类方法，实现resolveClassMethod:
+
+示例
+
+    @dynamic propertyName;
+    void dynamicMethodIMP(id self, SEL, _cmd) {
+            //implementation ...
+    }
+    
+    + (BOOL)resolveInstanceMethod:(SEL)aSEL {
+            if (aSEL == @selector(resolveThisMethodDynamically) {
+                    class_addMethod([self class], aSEL, (IMP)dynamicMethodIMP, "v@:");
+                    return YES;
+            }
+    
+            return [super resolveInstanceMethod:aSEL];
+    }
